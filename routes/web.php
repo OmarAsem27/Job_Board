@@ -4,6 +4,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\stripeController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,4 +31,12 @@ Route::middleware('guest')->group(function () {
 // Route::post('/login', [SessionController::class, 'store'])->middleware('guest');
 
 Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('auth');
+
+Route::get('/test', function () {
+    return view('test');
+});
+
+Route::post('stripe', [stripeController::class, 'stripe'])->name('stripe');
+Route::get('success', [stripeController::class, 'success'])->name('success');
+Route::get('cancel', [stripeController::class, 'cancel'])->name('cancel');
 
