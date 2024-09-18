@@ -24,8 +24,8 @@ class stripeController extends Controller
                 ],
             ],
             'mode' => 'payment',
-            'success_url' => route('success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('cancel')
+            'success_url' => route('success-stripe') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('cancel-stripe')
         ]);
         // dd($response);
         if (isset($response->id) && $response->id != '') {
@@ -34,7 +34,7 @@ class stripeController extends Controller
             session()->put('price', $request->price);
             return redirect($response->url);
         } else {
-            return redirect()->route('cancel');
+            return redirect()->route('cancel-stripe');
         }
     }
     public function success(Request $request)
@@ -58,10 +58,10 @@ class stripeController extends Controller
         session()->forget('quantity');
         session()->forget('price');
 
-        return "Payment is successful";
+        return "Payment with Stripe is successful";
     }
     public function cancel()
     {
-        return "rejected";
+        return "Payment with Stripe is rejected";
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\stripeController;
+use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,11 +33,16 @@ Route::middleware('guest')->group(function () {
 
 Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('auth');
 
-Route::get('/test', function () {
-    return view('test');
+Route::get('/payments', function () {
+    return view('payments');
 });
 
+
+Route::post('paypal', [PaypalController::class, 'paypal'])->name('paypal');
+Route::get('succeeded', [PaypalController::class, 'success'])->name('success-paypal');
+Route::get('canceled', [PaypalController::class, 'cancel'])->name('cancel-paypal');
+
 Route::post('stripe', [stripeController::class, 'stripe'])->name('stripe');
-Route::get('success', [stripeController::class, 'success'])->name('success');
-Route::get('cancel', [stripeController::class, 'cancel'])->name('cancel');
+Route::get('success', [stripeController::class, 'success'])->name('success-stripe');
+Route::get('cancel', [stripeController::class, 'cancel'])->name('cancel-stripe');
 
